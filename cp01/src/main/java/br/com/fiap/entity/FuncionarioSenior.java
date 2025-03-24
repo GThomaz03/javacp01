@@ -1,38 +1,30 @@
 package br.com.fiap.entity;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("SENIOR")
 public class FuncionarioSenior extends Funcionario {
+
+    @Column(name = "bonus")
     private double bonus = 500;
-    private int qntBonus;
 
     public FuncionarioSenior(String nome, double horasTarbalhadas, double valorHora) {
         super(nome, horasTarbalhadas, valorHora);
-        this.qntBonus = (int) horasTarbalhadas/15;
     }
 
-    public double getBonus() {
-        return bonus;
-    }
-
-    public void setBonus(double bonus) {
-        this.bonus = bonus;
-    }
-
-    public int getQntBonus() {
-        return qntBonus;
-    }
-
-    public void setQntBonus(int qntBonus) {
-        this.qntBonus = qntBonus;
-    }
 
     @Override
     public double calcularSalario() {
-        double bonus = this.bonus*this.qntBonus;
-        return super.calcularSalario()+bonus;
+        int qntBonus = (int) (getHorasTrabalhadas()/15);
+        return super.calcularSalario()+(this.bonus * qntBonus);
     }
 
     @Override
-    public String toString() {
-        return super.toString()+"  bonus=" + this.bonus + " quantidade de bonus=" + qntBonus;
+    public void imprimirInformacao() {
+        System.out.println("Funcionario Sênior: " + getNome());
+        System.out.println("Salário com bônus: " + calcularSalario());
     }
 }

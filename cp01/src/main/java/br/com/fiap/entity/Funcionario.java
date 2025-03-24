@@ -1,14 +1,47 @@
 package br.com.fiap.entity;
 
+import javax.persistence.*;
+
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo_funcionario", discriminatorType = DiscriminatorType.STRING)
+@Table(name = "TAB_FUNCIONARIO")
 public class Funcionario{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_funcionario")
+    private Long id;
+
+    @Column(name = "nome_funcionario")
     private String nome;
+
+    @Column(name = "horas_trabalhadas")
     private double horasTrabalhadas;
+
+    @Column(name = "valor_hora")
     private double valorHora;
 
-    public Funcionario(String nome, double horasTarbalhadas, double valorHora) {
+    public Funcionario(String nome, double horasTrabalhadas, double valorHora) {
         this.nome = nome;
-        this.horasTrabalhadas = horasTarbalhadas;
+        this.horasTrabalhadas = horasTrabalhadas;
         this.valorHora = valorHora;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public double getHorasTrabalhadas() {
+        return horasTrabalhadas;
+    }
+
+    public void setHorasTrabalhadas(double horasTrabalhadas) {
+        this.horasTrabalhadas = horasTrabalhadas;
     }
 
     public String getNome() {
@@ -17,14 +50,6 @@ public class Funcionario{
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public double getHorasTarbalhadas() {
-        return horasTrabalhadas;
-    }
-
-    public void setHorasTarbalhadas(double horasTarbalhadas) {
-        this.horasTrabalhadas = horasTarbalhadas;
     }
 
     public double getValorHora() {
@@ -39,12 +64,9 @@ public class Funcionario{
         return this.horasTrabalhadas*this.valorHora;
     }
 
-    @Override
-    public String toString() {
-        return "Funcionario " + '\n' +
-                "nome='" + nome + '\n' +
-                ", horasTarbalhadas=" + horasTrabalhadas +
-                ", valorHora=" + valorHora;
+    public void imprimirInformacao(){
+        System.out.println("Nome: "+nome);
+        System.out.println("Salário: "+calcularSalario());
     }
 
 
